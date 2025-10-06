@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Vertraging App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #312e81 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .title {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .title-text {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .video-container {
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        #video {
+            display: none;
+        }
+
+        .placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            font-size: 1.2em;
+            z-index: 10;
+        }
+
+        .placeholder.hidden {
+            display: none;
+        }
+
+        .error {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(220, 38, 38, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 11;
+        }
+
+        .error.hidden {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .delay-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .btn-delay {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .btn-delay:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .btn-delay:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .btn-delay.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-color: white;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-delay:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .settings {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .settings.hidden {
+            display: none;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .setting-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .setting-item label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .setting-item input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1em;
+        }
+
+        .status {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .tip {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .btn-settings {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .btn-settings:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.5em;
+            }
+            
+            .delay-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">
+                <div class="title-text">
+                    <span>🎥</span>
+                    <span>Video Vertraging</span>
+                </div>
+                <button class="btn-settings" id="settingsBtn">⚙️</button>
+            </div>
+
+            <div id="settings" class="settings hidden">
+                <h3>Vertragingen Instellen (seconden)</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label>Knop 1</label>
+                        <input type="number" id="delay1" value="2" min="0.5" max="30" step="0.5">
+                    </div>
+                    <div class="setting-item">
+                        <label>Knop 2</label>
+                        <input type="number" id="delay2" value="4" min="0.5" max="30" step="0.5">
+                    </div>
+                    <div class="setting-item">
+                        <label>Knop 3</label>
+                        <input type="number" id="delay3" value="6" min="0.5" max="30" step="0.5">
+                    </div>
+                    <div class="setting-item">
+                        <label>Knop 4</label>
+                        <input type="number" id="delay4" value="8" min="0.5" max="30" step="0.5">
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <video id="video" autoplay playsinline muted></video>
+                    <canvas id="canvas"></canvas>
+                    <div id="placeholder" class="placeholder">
+                        <div style="font-size: 3em;">📹</div>
+                        <div style="margin-top: 20px;">Klik op Start Camera</div>
+                    </div>
+                    <div id="error" class="error hidden">
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="startBtn" class="btn btn-primary">▶️ Start Camera</button>
+
+                <div class="delay-buttons" id="delayButtons">
+                    <button class="btn btn-delay" data-index="0" disabled>2s</button>
+                    <button class="btn btn-delay" data-index="1" disabled>4s</button>
+                    <button class="btn btn-delay" data-index="2" disabled>6s</button>
+                    <button class="btn btn-delay" data-index="3" disabled>8s</button>
+                </div>
+
+                <div id="status" class="status hidden">
+                    <strong>Actieve vertraging:</strong> <span id="currentDelay">2</span> seconden
+                </div>
+            </div>
+        </div>
+
+        <div class="tip">
+            💡 Studenten kunnen springen en zichzelf terugzien na de ingestelde vertraging
+        </div>
+    </div>
+
+    <script>
+        var appState = {
+            stream: null,
+            isPlaying: false,
+            activeDelay: 0,
+            frameBuffers: [[], [], [], []],
+            animationFrame: null,
+            delays: [2, 4, 6, 8]
+        };
+
+        var elements = {
+            video: document.getElementById('video'),
+            canvas: document.getElementById('canvas'),
+            placeholder: document.getElementById('placeholder'),
+            errorDiv: document.getElementById('error'),
+            startBtn: document.getElementById('startBtn'),
+            statusDiv: document.getElementById('status'),
+            delayButtons: document.querySelectorAll('.btn-delay'),
+            settingsBtn: document.getElementById('settingsBtn'),
+            settingsDiv: document.getElementById('settings')
+        };
+
+        var ctx = elements.canvas.getContext('2d');
+
+        function toggleSettings() {
+            elements.settingsDiv.classList.toggle('hidden');
+        }
+
+        function showError(message) {
+            elements.errorDiv.querySelector('div').textContent = message;
+            elements.errorDiv.classList.remove('hidden');
+        }
+
+        function hideError() {
+            elements.errorDiv.classList.add('hidden');
+        }
+
+        function updateDelayButtons() {
+            elements.delayButtons.forEach(function(btn, i) {
+                var input = document.getElementById('delay' + (i + 1));
+                btn.textContent = input.value + 's';
+                appState.delays[i] = parseFloat(input.value);
+            });
+        }
+
+        function startCamera() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showError('Je browser ondersteunt geen camera toegang.');
+                return;
+            }
+
+            navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: 'user',
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                }
+            }).then(function(mediaStream) {
+                appState.stream = mediaStream;
+                elements.video.srcObject = mediaStream;
+                
+                elements.video.onloadedmetadata = function() {
+                    elements.video.play();
+                    appState.isPlaying = true;
+                    elements.placeholder.classList.add('hidden');
+                    hideError();
+                    elements.startBtn.innerHTML = '⏸️ Stop Camera';
+                    elements.statusDiv.classList.remove('hidden');
+                    
+                    updateDelayButtons();
+                    
+                    elements.delayButtons.forEach(function(btn) {
+                        btn.disabled = false;
+                    });
+                    
+                    elements.delayButtons[0].classList.add('active');
+                    document.getElementById('currentDelay').textContent = appState.delays[0];
+                    
+                    startCapture();
+                };
+            }).catch(function(err) {
+                console.error('Camera error:', err);
+                showError('Kan geen toegang tot camera krijgen. Geef toestemming in je browser.');
+            });
+        }
+
+        function stopCamera() {
+            if (appState.stream) {
+                appState.stream.getTracks().forEach(function(track) {
+                    track.stop();
+                });
+                appState.stream = null;
+            }
+
+            if (appState.animationFrame) {
+                cancelAnimationFrame(appState.animationFrame);
+                appState.animationFrame = null;
+            }
+
+            appState.frameBuffers = [[], [], [], []];
+            appState.isPlaying = false;
+            elements.placeholder.classList.remove('hidden');
+            elements.startBtn.innerHTML = '▶️ Start Camera';
+            elements.statusDiv.classList.add('hidden');
+            
+            elements.delayButtons.forEach(function(btn) {
+                btn.disabled = true;
+                btn.classList.remove('active');
+            });
+        }
+
+        function startCapture() {
+            var fps = 30;
+            var frameInterval = 1000 / fps;
+            var lastFrameTime = 0;
+
+            function captureFrame(timestamp) {
+                if (!appState.isPlaying) return;
+                
+                if (timestamp - lastFrameTime >= frameInterval) {
+                    if (elements.video.readyState === elements.video.HAVE_ENOUGH_DATA) {
+                        elements.canvas.width = elements.video.videoWidth;
+                        elements.canvas.height = elements.video.videoHeight;
+
+                        ctx.drawImage(elements.video, 0, 0, elements.canvas.width, elements.canvas.height);
+                        
+                        try {
+                            var imageData = ctx.getImageData(0, 0, elements.canvas.width, elements.canvas.height);
+
+                            appState.delays.forEach(function(delay, index) {
+                                var maxFrames = Math.ceil(delay * fps);
+                                appState.frameBuffers[index].push(imageData);
+
+                                if (appState.frameBuffers[index].length > maxFrames) {
+                                    appState.frameBuffers[index].shift();
+                                }
+                            });
+
+                            var delayedFrame = appState.frameBuffers[appState.activeDelay][0];
+                            if (delayedFrame) {
+                                ctx.putImageData(delayedFrame, 0, 0);
+                            }
+                        } catch(e) {
+                            console.error('Frame capture error:', e);
+                        }
+                    }
+
+                    lastFrameTime = timestamp;
+                }
+
+                appState.animationFrame = requestAnimationFrame(captureFrame);
+            }
+
+            appState.animationFrame = requestAnimationFrame(captureFrame);
+        }
+
+        function setActiveDelay(index) {
+            appState.activeDelay = index;
+            elements.delayButtons.forEach(function(btn, i) {
+                if (i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            document.getElementById('currentDelay').textContent = appState.delays[index];
+        }
+
+        elements.settingsBtn.addEventListener('click', toggleSettings);
+
+        elements.startBtn.addEventListener('click', function() {
+            if (appState.isPlaying) {
+                stopCamera();
+            } else {
+                startCamera();
+            }
+        });
+
+        elements.delayButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var index = parseInt(this.getAttribute('data-index'));
+                setActiveDelay(index);
+            });
+        });
+
+        for (var i = 1; i <= 4; i++) {
+            (function(index) {
+                var input = document.getElementById('delay' + index);
+                input.addEventListener('change', function() {
+                    var value = Math.max(0.5, Math.min(30, parseFloat(this.value) || 0));
+                    this.value = value;
+                    appState.delays[index - 1] = value;
+                    appState.frameBuffers[index - 1] = [];
+                    
+                    if (appState.isPlaying) {
+                        elements.delayButtons[index - 1].textContent = value + 's';
+                        if (appState.activeDelay === index - 1) {
+                            document.getElementById('currentDelay').textContent = value;
+                        }
+                    }
+                });
+            })(i);
+        }
+    </script>
+</body>
+</html>
