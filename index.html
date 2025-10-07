@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -12,392 +11,536 @@
             box-sizing: border-box;
         }
 
-```
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #312e81 100%);
-        min-height: 100vh;
-        padding: 20px;
-        color: white;
-    }
-
-    .container {
-        max-width: 1600px;
-        margin: 0 auto;
-    }
-
-    .header {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 30px;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .title {
-        font-size: 2em;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    .controls {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    .btn {
-        flex: 1;
-        padding: 15px;
-        border: none;
-        border-radius: 12px;
-        font-size: 1.1em;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-    }
-
-    .btn-secondary {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-    }
-
-    .btn:hover {
-        transform: scale(1.02);
-    }
-
-    .video-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-
-    .video-item {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 15px;
-    }
-
-    .video-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .video-title {
-        font-size: 1.2em;
-        font-weight: 600;
-    }
-
-    .delay-input-group {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .delay-input {
-        width: 80px;
-        padding: 8px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        font-size: 1em;
-        font-weight: 600;
-    }
-
-    .video-container {
-        background: #000;
-        border-radius: 10px;
-        overflow: hidden;
-        position: relative;
-        width: 100%;
-        aspect-ratio: 16 / 9;
-    }
-
-    canvas {
-        width: 100%;
-        height: 100%;
-        display: block;
-    }
-
-    .video-source {
-        display: none;
-    }
-
-    .placeholder {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.7);
-        font-size: 1em;
-    }
-
-    .placeholder.hidden {
-        display: none;
-    }
-
-    @media (max-width: 1200px) {
-        .video-grid {
-            grid-template-columns: 1fr;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #312e81 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
         }
-    }
-</style>
-```
 
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+        }
+
+        .video-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .video-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .video-title {
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .delay-badge {
+            background: rgba(16, 185, 129, 0.3);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            border: 2px solid rgba(16, 185, 129, 0.5);
+            transition: all 0.3s;
+        }
+
+        .delay-badge:hover {
+            background: rgba(16, 185, 129, 0.5);
+            border-color: rgba(16, 185, 129, 0.8);
+        }
+
+        .video-container {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .video-source {
+            display: none;
+        }
+
+        .placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            font-size: 1em;
+        }
+
+        .placeholder.hidden {
+            display: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .delay-input-modal {
+            width: 100%;
+            padding: 15px;
+            font-size: 2em;
+            text-align: center;
+            border: 3px solid rgba(16, 185, 129, 0.5);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .delay-input-modal:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn-save {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .modal-btn-cancel {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 1200px) {
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .title {
+                font-size: 1.5em;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .title {
+                font-size: 1.2em;
+            }
+            
+            .video-grid {
+                gap: 10px;
+            }
+            
+            .video-item {
+                padding: 8px;
+            }
+            
+            .video-title {
+                font-size: 0.85em;
+            }
+            
+            .delay-badge {
+                font-size: 0.8em;
+                padding: 4px 8px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div class="title">🎥 Video Vertraging - 4 Schermen</div>
-
-```
-        <div class="controls">
-            <button id="startBtn" class="btn btn-primary" onclick="toggleCamera()">▶️ Start Camera</button>
-        </div>
-    </div>
-
-    <div class="video-grid">
-        <div class="video-item">
-            <div class="video-header">
-                <div class="video-title">Scherm 1</div>
-                <div class="delay-input-group">
-                    <input type="number" class="delay-input" data-index="0" value="2" min="0" max="30" step="0.5">
-                    <span>sec</span>
-                </div>
-            </div>
-            <div class="video-container">
-                <canvas id="canvas0"></canvas>
-                <div class="placeholder" id="placeholder0">
-                    <div style="font-size: 2em;">📹</div>
-                    <div style="margin-top: 10px;">2 seconden</div>
-                </div>
+            
+            <div class="controls">
+                <button id="startBtn" class="btn btn-primary" onclick="toggleCamera()">▶️ Start Camera</button>
             </div>
         </div>
 
-        <div class="video-item">
-            <div class="video-header">
-                <div class="video-title">Scherm 2</div>
-                <div class="delay-input-group">
-                    <input type="number" class="delay-input" data-index="1" value="4" min="0" max="30" step="0.5">
-                    <span>sec</span>
+        <div class="video-grid">
+            <div class="video-item" onclick="openDelayModal(0)">
+                <div class="video-header">
+                    <div class="video-title">Scherm 1</div>
+                    <div class="delay-badge" id="badge0">2s</div>
+                </div>
+                <div class="video-container">
+                    <canvas id="canvas0"></canvas>
+                    <div class="placeholder" id="placeholder0">
+                        <div style="font-size: 2em;">📹</div>
+                        <div style="margin-top: 10px;">Tik om vertraging in te stellen</div>
+                    </div>
                 </div>
             </div>
-            <div class="video-container">
-                <canvas id="canvas1"></canvas>
-                <div class="placeholder" id="placeholder1">
-                    <div style="font-size: 2em;">📹</div>
-                    <div style="margin-top: 10px;">4 seconden</div>
-                </div>
-            </div>
-        </div>
 
-        <div class="video-item">
-            <div class="video-header">
-                <div class="video-title">Scherm 3</div>
-                <div class="delay-input-group">
-                    <input type="number" class="delay-input" data-index="2" value="6" min="0" max="30" step="0.5">
-                    <span>sec</span>
+            <div class="video-item" onclick="openDelayModal(1)">
+                <div class="video-header">
+                    <div class="video-title">Scherm 2</div>
+                    <div class="delay-badge" id="badge1">4s</div>
+                </div>
+                <div class="video-container">
+                    <canvas id="canvas1"></canvas>
+                    <div class="placeholder" id="placeholder1">
+                        <div style="font-size: 2em;">📹</div>
+                        <div style="margin-top: 10px;">Tik om vertraging in te stellen</div>
+                    </div>
                 </div>
             </div>
-            <div class="video-container">
-                <canvas id="canvas2"></canvas>
-                <div class="placeholder" id="placeholder2">
-                    <div style="font-size: 2em;">📹</div>
-                    <div style="margin-top: 10px;">6 seconden</div>
-                </div>
-            </div>
-        </div>
 
-        <div class="video-item">
-            <div class="video-header">
-                <div class="video-title">Scherm 4</div>
-                <div class="delay-input-group">
-                    <input type="number" class="delay-input" data-index="3" value="8" min="0" max="30" step="0.5">
-                    <span>sec</span>
+            <div class="video-item" onclick="openDelayModal(2)">
+                <div class="video-header">
+                    <div class="video-title">Scherm 3</div>
+                    <div class="delay-badge" id="badge2">6s</div>
+                </div>
+                <div class="video-container">
+                    <canvas id="canvas2"></canvas>
+                    <div class="placeholder" id="placeholder2">
+                        <div style="font-size: 2em;">📹</div>
+                        <div style="margin-top: 10px;">Tik om vertraging in te stellen</div>
+                    </div>
                 </div>
             </div>
-            <div class="video-container">
-                <canvas id="canvas3"></canvas>
-                <div class="placeholder" id="placeholder3">
-                    <div style="font-size: 2em;">📹</div>
-                    <div style="margin-top: 10px;">8 seconden</div>
+
+            <div class="video-item" onclick="openDelayModal(3)">
+                <div class="video-header">
+                    <div class="video-title">Scherm 4</div>
+                    <div class="delay-badge" id="badge3">8s</div>
+                </div>
+                <div class="video-container">
+                    <canvas id="canvas3"></canvas>
+                    <div class="placeholder" id="placeholder3">
+                        <div style="font-size: 2em;">📹</div>
+                        <div style="margin-top: 10px;">Tik om vertraging in te stellen</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<video id="video" class="video-source" autoplay playsinline muted></video>
+    <div class="modal" id="delayModal">
+        <div class="modal-content">
+            <div class="modal-title">Stel vertraging in</div>
+            <input type="number" class="delay-input-modal" id="modalDelayInput" min="0" max="30" step="0.5" value="2">
+            <div style="margin-bottom: 20px; font-size: 0.9em; opacity: 0.8;">seconden (0 - 30)</div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" onclick="closeDelayModal()">Annuleer</button>
+                <button class="modal-btn modal-btn-save" onclick="saveDelay()">Opslaan</button>
+            </div>
+        </div>
+    </div>
 
-<script>
-    if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('landscape').catch(function() {
-            console.log('Landscape lock not supported');
-        });
-    }
+    <video id="video" class="video-source" autoplay playsinline muted></video>
 
-    var appState = {
-        stream: null,
-        isPlaying: false,
-        frameBuffers: [[], [], [], []],
-        animationFrame: null,
-        delays: [2, 4, 6, 8],
-        canvases: [],
-        contexts: [],
-        placeholders: []
-    };
+    <script>
+        if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(function() {
+                console.log('Landscape lock not supported');
+            });
+        }
 
-    var video = document.getElementById('video');
-    var startBtn = document.getElementById('startBtn');
-    var delayInputs = document.querySelectorAll('.delay-input');
+        var appState = {
+            stream: null,
+            isPlaying: false,
+            frameBuffers: [[], [], [], []],
+            animationFrame: null,
+            delays: [2, 4, 6, 8],
+            canvases: [],
+            contexts: [],
+            placeholders: [],
+            badges: [],
+            currentEditIndex: null
+        };
 
-    for (var i = 0; i < 4; i++) {
-        appState.canvases[i] = document.getElementById('canvas' + i);
-        appState.contexts[i] = appState.canvases[i].getContext('2d');
-        appState.placeholders[i] = document.getElementById('placeholder' + i);
-    }
+        var video = document.getElementById('video');
+        var startBtn = document.getElementById('startBtn');
+        var modal = document.getElementById('delayModal');
+        var modalInput = document.getElementById('modalDelayInput');
 
-    delayInputs.forEach(function(input) {
-        input.addEventListener('change', function() {
-            var index = parseInt(this.getAttribute('data-index'));
-            var value = Math.max(0.5, Math.min(30, parseFloat(this.value) || 0));
-            this.value = value;
+        for (var i = 0; i < 4; i++) {
+            appState.canvases[i] = document.getElementById('canvas' + i);
+            appState.contexts[i] = appState.canvases[i].getContext('2d');
+            appState.placeholders[i] = document.getElementById('placeholder' + i);
+            appState.badges[i] = document.getElementById('badge' + i);
+        }
+
+        function openDelayModal(index) {
+            appState.currentEditIndex = index;
+            modalInput.value = appState.delays[index];
+            modal.classList.add('active');
+            setTimeout(function() {
+                modalInput.focus();
+                modalInput.select();
+            }, 100);
+        }
+
+        function closeDelayModal() {
+            modal.classList.remove('active');
+            appState.currentEditIndex = null;
+        }
+
+        function saveDelay() {
+            if (appState.currentEditIndex === null) return;
+            
+            var value = Math.max(0, Math.min(30, parseFloat(modalInput.value) || 0));
+            var index = appState.currentEditIndex;
+            
             appState.delays[index] = value;
+            appState.badges[index].textContent = value + 's';
             appState.frameBuffers[index] = [];
             
-            if (appState.isPlaying) {
-                var placeholder = appState.placeholders[index];
-                if (placeholder) {
-                    placeholder.querySelector('div:last-child').textContent = value + ' seconden';
-                }
+            closeDelayModal();
+        }
+
+        modalInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                saveDelay();
+            } else if (e.key === 'Escape') {
+                closeDelayModal();
             }
         });
-    });
 
-    function toggleCamera() {
-        if (appState.isPlaying) {
-            stopCamera();
-        } else {
-            startCamera();
-        }
-    }
-
-    function startCamera() {
-        navigator.mediaDevices.getUserMedia({
-            video: {
-                width: { ideal: 1280 },
-                height: { ideal: 720 }
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeDelayModal();
             }
-        }).then(function(mediaStream) {
-            appState.stream = mediaStream;
-            video.srcObject = mediaStream;
-            video.play();
+        });
 
-            appState.isPlaying = true;
+        function toggleCamera() {
+            if (appState.isPlaying) {
+                stopCamera();
+            } else {
+                startCamera();
+            }
+        }
+
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({
+                video: {
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                }
+            }).then(function(mediaStream) {
+                appState.stream = mediaStream;
+                video.srcObject = mediaStream;
+                video.play();
+
+                appState.isPlaying = true;
+                
+                for (var i = 0; i < 4; i++) {
+                    appState.placeholders[i].classList.add('hidden');
+                }
+                
+                startBtn.textContent = '⏸️ Stop Camera';
+                
+                startCapture();
+            }).catch(function(err) {
+                alert('Camera toegang geweigerd');
+            });
+        }
+
+        function stopCamera() {
+            if (appState.stream) {
+                appState.stream.getTracks().forEach(function(track) {
+                    track.stop();
+                });
+                appState.stream = null;
+            }
+
+            if (appState.animationFrame) {
+                cancelAnimationFrame(appState.animationFrame);
+            }
+
+            appState.frameBuffers = [[], [], [], []];
+            appState.isPlaying = false;
             
             for (var i = 0; i < 4; i++) {
-                appState.placeholders[i].classList.add('hidden');
-                delayInputs[i].value = appState.delays[i];
+                appState.placeholders[i].classList.remove('hidden');
             }
             
-            startBtn.textContent = '⏸️ Stop Camera';
-            
-            startCapture();
-        }).catch(function(err) {
-            alert('Camera toegang geweigerd');
-        });
-    }
-
-    function stopCamera() {
-        if (appState.stream) {
-            appState.stream.getTracks().forEach(function(track) {
-                track.stop();
-            });
-            appState.stream = null;
+            startBtn.textContent = '▶️ Start Camera';
         }
 
-        if (appState.animationFrame) {
-            cancelAnimationFrame(appState.animationFrame);
-        }
+        function startCapture() {
+            var fps = 30;
+            var frameInterval = 1000 / fps;
+            var lastFrameTime = 0;
 
-        appState.frameBuffers = [[], [], [], []];
-        appState.isPlaying = false;
-        
-        for (var i = 0; i < 4; i++) {
-            appState.placeholders[i].classList.remove('hidden');
-        }
-        
-        startBtn.textContent = '▶️ Start Camera';
-    }
-
-    function startCapture() {
-        var fps = 30;
-        var frameInterval = 1000 / fps;
-        var lastFrameTime = 0;
-
-        function captureFrame(timestamp) {
-            if (!appState.isPlaying) return;
-            
-            if (timestamp - lastFrameTime >= frameInterval) {
-                if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                    for (var i = 0; i < 4; i++) {
-                        var canvas = appState.canvases[i];
-                        var ctx = appState.contexts[i];
-                        
-                        canvas.width = video.videoWidth;
-                        canvas.height = video.videoHeight;
-                        
-                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    }
-                    
-                    try {
-                        var imageData = appState.contexts[0].getImageData(0, 0, appState.canvases[0].width, appState.canvases[0].height);
-
-                        appState.delays.forEach(function(delay, index) {
-                            var maxFrames = Math.ceil(delay * fps);
-                            appState.frameBuffers[index].push(imageData);
-
-                            if (appState.frameBuffers[index].length > maxFrames) {
-                                appState.frameBuffers[index].shift();
-                            }
-                        });
-
+            function captureFrame(timestamp) {
+                if (!appState.isPlaying) return;
+                
+                if (timestamp - lastFrameTime >= frameInterval) {
+                    if (video.readyState === video.HAVE_ENOUGH_DATA) {
                         for (var i = 0; i < 4; i++) {
-                            var delayedFrame = appState.frameBuffers[i][0];
-                            if (delayedFrame) {
-                                appState.contexts[i].putImageData(delayedFrame, 0, 0);
-                            }
+                            var canvas = appState.canvases[i];
+                            var ctx = appState.contexts[i];
+                            
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
+                            
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                         }
-                    } catch(e) {
-                        console.error('Frame capture error:', e);
+                        
+                        try {
+                            var imageData = appState.contexts[0].getImageData(0, 0, appState.canvases[0].width, appState.canvases[0].height);
+
+                            appState.delays.forEach(function(delay, index) {
+                                var maxFrames = Math.ceil(delay * fps);
+                                appState.frameBuffers[index].push(imageData);
+
+                                if (appState.frameBuffers[index].length > maxFrames) {
+                                    appState.frameBuffers[index].shift();
+                                }
+                            });
+
+                            for (var i = 0; i < 4; i++) {
+                                var delayedFrame = appState.frameBuffers[i][0];
+                                if (delayedFrame) {
+                                    appState.contexts[i].putImageData(delayedFrame, 0, 0);
+                                }
+                            }
+                        } catch(e) {
+                            console.error('Frame capture error:', e);
+                        }
                     }
+
+                    lastFrameTime = timestamp;
                 }
 
-                lastFrameTime = timestamp;
+                appState.animationFrame = requestAnimationFrame(captureFrame);
             }
 
             appState.animationFrame = requestAnimationFrame(captureFrame);
         }
-
-        appState.animationFrame = requestAnimationFrame(captureFrame);
-    }
-</script>
-```
-
+    </script>
 </body>
 </html>
